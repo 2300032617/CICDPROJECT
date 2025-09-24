@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: cicddb
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-padmin"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "3307:3306"   # optional: access from host
+
+  backend:
+    build: ./SpringBootSDPProject
+    container_name: springboot-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 6060
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/cicddb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "6060:6060"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontendreactapp
+    container_name: react-frontend
+    depends_on:
+      - backend
+    ports:
+      - "7070:80"   # frontend accessible at http://localhost:7070
+    restart: unless-stopped
+
+volumes:
+  mysql_data: {}
