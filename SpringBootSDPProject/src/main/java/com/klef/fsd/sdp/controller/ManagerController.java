@@ -74,11 +74,21 @@ public class ManagerController
             return ResponseEntity.status(500).body("Failed to Add Event: " + e.getMessage());
         }
     }
-    @GetMapping("/vieweventsbymanager/{id}")
+//     @GetMapping("/vieweventsbymanager/{id}")
+// public ResponseEntity<List<Event>> getEventsByManager(@PathVariable int id) {
+//     List<Event> events = eventService.getEventsByManagerId(id);
+//     return ResponseEntity.ok(events);
+//  }
+@GetMapping("/vieweventsbymanager/{id}")
 public ResponseEntity<List<Event>> getEventsByManager(@PathVariable int id) {
-    List<Event> events = eventService.getEventsByManagerId(id);
-    return ResponseEntity.ok(events);
+    try {
+        List<Event> events = managerService.vieweventsbymanager(id);
+        return ResponseEntity.ok(events);
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);
+    }
 }
+
 
 
 
