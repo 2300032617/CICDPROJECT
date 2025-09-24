@@ -13,7 +13,7 @@ services:
       timeout: 3s
       retries: 20
     ports:
-      - "3307:3306"   # optional: access from host
+      - "3308:3306"   # optional: access from host
 
   backend:
     build: ./SpringBootSDPProject
