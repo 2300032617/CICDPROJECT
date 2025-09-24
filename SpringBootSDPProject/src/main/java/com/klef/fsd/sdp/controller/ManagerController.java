@@ -79,20 +79,20 @@ public class ManagerController
 //     List<Event> events = eventService.getEventsByManagerId(id);
 //     return ResponseEntity.ok(events);
 //  }
+// @GetMapping("/vieweventsbymanager/{id}")
+// public ResponseEntity<List<Event>> getEventsByManager(@PathVariable int id) {
+//     try {
+//         List<Event> events = managerService.vieweventsbymanager(id);
+//         return ResponseEntity.ok(events);
+//     } catch (Exception e) {
+//         return ResponseEntity.status(500).body(null);
+//     }
+}
 @GetMapping("/vieweventsbymanager/{id}")
 public ResponseEntity<List<Event>> getEventsByManager(@PathVariable int id) {
-    try {
-        List<Event> events = managerService.vieweventsbymanager(id);
-        return ResponseEntity.ok(events);
-    } catch (Exception e) {
-        return ResponseEntity.status(500).body(null);
-    }
+    List<Event> events = managerService.vieweventsbymanager(id); // ✅ correct
+    return ResponseEntity.ok(events);
 }
-
-
-
-
-
 
    @GetMapping("/viewbookingsbymanager/{managerId}")
    public ResponseEntity<List<BookEvent>> viewBookingsByManager(@PathVariable int managerId) 
